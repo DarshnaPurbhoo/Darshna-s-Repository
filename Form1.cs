@@ -82,28 +82,40 @@ namespace WindowsFormsApp_Practise
 
                     case var expression when (average >= 0 && average <= 39.9):
                         table.Rows.Add(item.Firstname, item.Surname, Math.Round(average, 1), "F");
-                        break;      
-            }
+                        break;
+                }
 
-        }
+            }
 
             dataGridView1.DataSource = table;
 
-            StringBuilder sb = new StringBuilder();
-
-            string[] columnNames = table.Columns.Cast<DataColumn>().
-                                              Select(column => column.ColumnName).
-                                              ToArray();
-            sb.AppendLine(string.Join(",", columnNames));
-
-            foreach (DataRow row in table.Rows)
+            private void button1_Click(object sender, EventArgs e)
             {
-                string[] fields = row.ItemArray.Select(field => field.ToString()).
-                                                ToArray();
-                sb.AppendLine(string.Join(",", fields));
-            }
+                try
+                {
+                    DataTable table = new DataTable();
+                    StringBuilder sb = new StringBuilder();
 
-            File.WriteAllText("Output.csv", sb.ToString());
+                    string[] columnNames = table.Columns.Cast<DataColumn>().
+                                                      Select(column => column.ColumnName).
+                                                      ToArray();
+                    sb.AppendLine(string.Join(",", columnNames));
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        string[] fields = row.ItemArray.Select(field => field.ToString()).
+                                                        ToArray();
+                        sb.AppendLine(string.Join(",", fields));
+                    }
+
+                    File.WriteAllText("Output.csv", sb.ToString());
+                    MessageBox.Show("File Successfully saved");
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to Save file");
+                }
+            }
         }
     }
 }
